@@ -1,4 +1,4 @@
-##Configuring test environment with Ansible
+## Configuring test environment with Ansible
 ------------------------------------------------------------------------------
 
 - Requires Ansible 2.1
