@@ -1,0 +1,26 @@
+[core-0]
+name=core-0
+baseurl=http://10.175.172.111/cobbler/ks_mirror/RHEL{{ ansible_distribution_version }}-x86_64
+enabled=1
+gpgcheck=0
+priority=1
+proxy=_none_
+
+[core-1]
+name=core-1
+baseurl=http://10.175.172.111/cobbler/ks_mirror/RHEL{{ ansible_distribution_version }}-x86_64/addons/ResilientStorage
+enabled=1
+gpgcheck=0
+priority=1
+proxy=_none_
+
+
+[core-2]
+name=core-2
+baseurl=http://10.175.172.111/cobbler/ks_mirror/RHEL{{ ansible_distribution_version }}-x86_64/addons/HighAvailability
+enabled=1
+gpgcheck=0
+priority=1
+proxy=_none_
+
+

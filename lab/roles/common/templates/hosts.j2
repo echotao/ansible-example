@@ -1,0 +1,14 @@
+# {{ ansible_managed }}
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+10.175.172.176  bay1-16
+10.175.172.176  bay1-16.drutt.com
+
+{% for host in play_hosts %}
+{% if ( 'ansible_default_ipv4' in hostvars[host] ) and ( not hostvars[host]['ansible_hostname'] == 'localhost' ) %}
+{{ hostvars[host]['ansible_default_ipv4']['address'] }}  {{ hostvars[host]['ansible_hostname'] }}
+{% if ( hostvars[host]['ansible_hostname'] != hostvars[host]['ansible_nodename'] ) %}
+{{ hostvars[host]['ansible_default_ipv4']['address'] }}  {{ hostvars[host]['ansible_nodename'] }}
+{% endif %}
+{% endif %}
+{% endfor %}

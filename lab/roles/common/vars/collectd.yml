@@ -1,0 +1,3 @@
+    collectd_path: /opt/collectd
+    collectd_conf_file: "{{ collectd_path }}/etc/collectd.conf"
+    collectd_binary: "{{ collectd_path }}/sbin/collectd"

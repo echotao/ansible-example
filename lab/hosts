@@ -1,0 +1,14 @@
+#For performance test environment
+
+#[webservers]
+#webserver1
+#webserver2
+
+#[dbservers]
+#dbserver
+
+#[lbservers]
+#lbserver
+
+[monitoring]
+somehostipaddress ansible_user=root ansible_ssh_pass=rootroot

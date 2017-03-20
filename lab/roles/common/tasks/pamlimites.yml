@@ -1,0 +1,11 @@
+---
+# contains plays of pam limites.
+
+# Add or modify nofile soft limit for the user root
+- pam_limits: domain=root limit_type=soft limit_item=nofile value=655350
+
+- pam_limits: domain=root limit_type=hard limit_item=nofile value=655350
+
+- pam_limits: domain=root limit_type=soft limit_item=nproc value=65535
+
+- pam_limits: domain=root limit_type=hard limit_item=nproc value=65535

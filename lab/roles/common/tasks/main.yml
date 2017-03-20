@@ -1,0 +1,56 @@
+---
+# This role contains common plays that will run on all nodes.
+
+#- hosts: common
+#  remote_user: root
+  
+#  tasks:
+
+    - name: install libselinux-python which required by ansible
+      yum: name=http://10.175.172.111/cobbler/ks_mirror/RHEL6.7-x86_64/Packages/libselinux-python-2.0.94-5.8.el6.x86_64.rpm state=present
+      when: ansible_distribution_version == "6.7"
+
+    - name: Create the repository for EPEL
+      template: src=epel6.repo.j2 dest=/etc/yum.repos.d/epel.repo
+      when: ansible_distribution_major_version == "6"
+
+    - name: Create the repository for EPEL
+      template: src=epel7.repo.j2 dest=/etc/yum.repos.d/epel.repo
+      when: ansible_distribution_major_version == "7"
+
+    #- name: Create the GPG key for EPEL
+    #  copy: src=RPM-GPG-KEY-EPEL-6 dest=/etc/pki/rpm-gpg
+
+    - name: Install gcc tools as collectd required
+      yum: name={{ item }} state=present
+      with_items:
+        - libselinux-python
+        - tuned
+        - net-tools
+
+    - name: Copy tuned rpm
+      copy: src=tuned-profile-1.0.0.rpm dest=./
+
+    - name: Install tuned profile
+      yum: name=tuned-profile-1.0.0.rpm state=present
+      tags: tune
+
+    - name: Install ntp
+      yum: name=ntp state=present
+      tags: ntp
+
+    - name: Configure ntp file
+      template: src=ntp.conf.j2 dest=/etc/ntp.conf
+      tags: ntp
+      notify: restart ntp
+
+    - name: Start the ntp service
+      service: name=ntpd state=started enabled=yes
+      tags: ntp
+
+    - name: test to see if selinux is disable
+      selinux: state=disabled
+    
+    - include: tasks/hosts.yml
+    - include: tasks/collectd.yml
+    - include: tasks/pamlimites.yml

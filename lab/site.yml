@@ -1,0 +1,34 @@
+---
+## This playbook displays the whole application stack in this site
+
+# Apply common configuration to all hosts
+- hosts: all
+  
+  roles:
+  - common
+
+# Configure and deploy database servers.
+#- hosts: dbservers
+
+#  roles:
+#  - dbserver
+
+# Configure and deploy web application.
+- hosts: webservers
+
+  roles:
+#  - base-apache
+  - webserver
+
+# Configure and deploy the load balancer(s).
+#- hosts: lbservers
+
+#  roles:
+#  - haproxy
+
+# Configure and deploy test client(s).
+#- hosts: testclients
+
+#  roles:
+#  - testclient
+

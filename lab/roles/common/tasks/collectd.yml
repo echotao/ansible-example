@@ -1,0 +1,31 @@
+---
+# contains plays of collectd installation.
+    
+- name: Install gcc tools as collectd required
+  yum: name={{ item }} state=present
+  with_items:
+    - gcc
+    - glibc
+    - perl-ExtUtils-MakeMaker
+
+- name: kill working collectd
+  command: pkill -f collectd
+  ignore_errors: true
+
+- name: create collectd tmp dir
+  file: path=/root/temp_collectd state=directory
+
+- name: extract collectd code
+  unarchive: src=collectd_5.5.0.tar.gz dest=/root/temp_collectd
+
+- name: configure collectd
+  command: ./configure --disable-turbostat chdir=/root/temp_collectd/collectd-5.5.0
+
+- name: make binary
+  command: make all install chdir=/root/temp_collectd/collectd-5.5.0
+
+- name: configure collectd
+  copy: src=vm_collectd.conf dest=/opt/collectd/etc/collectd.conf
+
+- name: start collectd
+  command: /opt/collectd/sbin/collectd
